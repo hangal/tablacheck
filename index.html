@@ -1,0 +1,114 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body style="text-align: center">
+  <!--[if IE]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <p>Welcome to Tabla Speed Check!</p>
+  <script src="js/vendor/modernizr-3.8.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+  <script src="js/plugins.js"></script>
+  <script src="js/main.js"></script>
+
+  Enter your Youtube embed code here. You can get this by clicking the share link below the video. <br/>
+  <input id="embedded-video-input" style="width:600px"> <br/><br/>
+
+  <div id="embedded-video">
+    <!-- pt. venkatesh kumar's parallel lines concert-->
+    <!-- <iframe width="1120" height="630" src="https://www.youtube.com/embed/SopMB5_UgKA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+    <!-- rishu's video-->
+    <iframe width="1120" height="630" src="https://www.youtube.com/embed/UD-iSWFKack?start=265" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+  </div>
+  <br/>
+  <br/>
+  <select id="beat">
+    <option value="7">Rupak taal</option>
+    <option value="9" selected>Matta taal</option>
+    <option value="10">Sooltaal</option>
+    <option value="10">Jhaptaal</option>
+    <option value="11">Chartal-Ki-Sawari-</option>
+    <option value="12">Ektaal</option>
+    <option value="13">Jai taal</option>
+    <option value="14">Ada Chautaal</option>
+    <option value="16">Teen taal</option>
+  </select>
+
+
+
+  <button id="first-beat">Click at first beat</button>
+  <button id="second-beat">Click at second beat</button>
+  Current beat is <span id="current-beat">0</span>.
+  Beat time is <span id="beat-time"></span> seconds.
+  Speed is <span id="bpm"></span> bpm.
+
+  <script>
+    $('#embedded-video-input').change(function() {
+      var new_embedded_video = $('#embedded-video-input').val();
+      new_embedded_video = new_embedded_video.replace('width="560"', 'width="1120"')
+      new_embedded_video = new_embedded_video.replace('height="315"', 'height="630"')
+      console.log  ('embedded video changed to ' + new_embedded_video);
+      $('#embedded-video-input').val(new_embedded_video);
+        $('#embedded-video').html(new_embedded_video);
+    });
+
+    function updateNextBeat() {
+      console.log  ("updating beat to " + current_beat + " at " + new Date().getTime());
+      // wait for beat time and then increment current_beat
+      current_beat++;
+      var num_beats = parseInt($('#beat').val());
+      if (current_beat ===  num_beats + 1) // wrap around to 1 at the end of the beat cycle
+        current_beat = 1;
+      $('#current-beat').text(current_beat); // show it on the screen
+      timeOut = setTimeout (updateNextBeat, beatTime); // schedule the next beat. after beatTime, updateNextBeat will be executed again
+    }
+
+    var current_beat, timeoutID;
+    var firstBeatTimestamp, beatTime; // in milliseconds
+    var waitingForSecondBeat = false;
+    $('#first-beat').click (function(){
+      firstBeatTimestamp = new Date().getTime();
+      current_beat = 1;
+      $('#current-beat').text('1');
+      waitingForSecondBeat = true;
+    });
+
+    $('#second-beat').click (function(){
+      if (!waitingForSecondBeat)
+        return;
+      var secondBeatTime = new Date().getTime();
+      beatTime = secondBeatTime - firstBeatTimestamp;
+      $('#beat-time').text(beatTime/1000);
+      $('#current-beat').text('2');
+
+      // set bpm up to 2 decimal places of accuracy
+      var hundred_times_bpm = Math.floor(6000/(beatTime/1000));
+      $('#bpm').text(hundred_times_bpm/100);
+
+      if (timeoutID)
+        clearTimeout(timeoutID);
+      updateNextBeat();
+    });
+  </script>
+</body>
+
+</html>
