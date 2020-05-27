@@ -35,33 +35,55 @@
 
   <div id="embedded-video">
     <!-- pt. venkatesh kumar's parallel lines concert-->
-    <!-- <iframe width="1120" height="630" src="https://www.youtube.com/embed/SopMB5_UgKA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+    <iframe width="1120" height="630" src="https://www.youtube.com/embed/SopMB5_UgKA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <!-- rishu's video-->
-    <iframe width="1120" height="630" src="https://www.youtube.com/embed/UD-iSWFKack?start=265" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+<!--    <iframe width="1120" height="630" src="https://www.youtube.com/embed/UD-iSWFKack?start=265" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe> -->
   </div>
   <br/>
   <br/>
+
+  <!--  selector for beat-->
   <select id="beat">
     <option value="7">Rupak taal</option>
-    <option value="9" selected>Matta taal</option>
+    <option value="9" >Matta taal</option>
     <option value="10">Sooltaal</option>
     <option value="10">Jhaptaal</option>
     <option value="11">Chartal-Ki-Sawari-</option>
-    <option value="12">Ektaal</option>
+    <option value="12" selected>Ektaal</option>
     <option value="13">Jai taal</option>
     <option value="14">Ada Chautaal</option>
     <option value="16">Teen taal</option>
   </select>
 
-
+  <select id="laya">
+    <option value="slow" selected>Vilambit</option>
+    <option value="fast">Madhya Laya/Drut</option>
+  </select>
 
   <button id="first-beat">Click at first beat</button>
   <button id="second-beat">Click at second beat</button>
-  Current beat is <span id="current-beat">0</span>.
-  Beat time is <span id="beat-time"></span> seconds.
-  Speed is <span id="bpm"></span> bpm.
 
+  <button id="first-sam" style="display:none">Click at first sam</button>
+  <button id="second-sam" style="display:none">Click at second sam</button>
+
+  Current beat is <span id="current-beat">-</span>.
+  Beat time is <span id="beat-time">-</span> seconds.
+  Speed is <span id="bpm">-</span> bpm.
+
+  <br/>
+  <br/>
   <script>
+
+    $('#laya').change(function() {
+      if ($('#laya').val() == 'slow') {
+          $('#first-beat, #second-beat').show();
+          $('#first-sam, #second-sam').hide();
+      } else {
+        $('#first-sam, #second-sam').show();
+        $('#first-beat, #second-beat').hide();
+      }
+    });
+
     $('#embedded-video-input').change(function() {
       var new_embedded_video = $('#embedded-video-input').val();
       new_embedded_video = new_embedded_video.replace('width="560"', 'width="1120"')
@@ -85,6 +107,7 @@
     var current_beat, timeoutID;
     var firstBeatTimestamp, beatTime; // in milliseconds
     var waitingForSecondBeat = false;
+
     $('#first-beat').click (function(){
       firstBeatTimestamp = new Date().getTime();
       current_beat = 1;
@@ -108,6 +131,35 @@
         clearTimeout(timeoutID);
       updateNextBeat();
     });
+
+    $('#first-sam').click (function(){
+      firstSamTimestamp = new Date().getTime();
+      current_beat = 1;
+      $('#current-beat').text('1');
+      waitingForSecondSam = true;
+    });
+
+    $('#second-sam').click (function(){
+      if (!waitingForSecondSam)
+        return;
+      var secondSamTime = new Date().getTime();
+      var cycleTime = secondSamTime - firstSamTimestamp;
+      var nBeats = $('#beat').val();
+      beatTime = cycleTime/nBeats;
+
+      $('#beat-time').text(Math.floor(100 * beatTime/1000)/100);
+      $('#current-beat').text('1');
+      current_beat = 1;
+
+      // set bpm up to 2 decimal places of accuracy
+      var hundred_times_bpm = Math.floor(6000/(beatTime/1000));
+      $('#bpm').text(hundred_times_bpm/100);
+
+      if (timeoutID)
+        clearTimeout(timeoutID);
+      updateNextBeat();
+    });
+
   </script>
 </body>
 
