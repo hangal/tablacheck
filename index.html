@@ -15,6 +15,146 @@
   <link rel="stylesheet" href="css/main.css">
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <meta name="theme-color" content="#fafafa">
+  <style>
+    * {
+      font-family: 'Georgia', 'Times New Roman', serif;
+    }
+    body {
+      background-color: #f8f9fa;
+    }
+    .metric-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    .metric-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .metric-label {
+      font-size: 14px;
+      color: #333;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .metric-box {
+      background: linear-gradient(135deg, #f5c2e7 0%, #e8b4d9 100%);
+      border-radius: 15px;
+      padding: 30px 40px;
+      min-width: 180px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+    .metric-box.beat-time {
+      background: linear-gradient(135deg, #bae6fd 0%, #93c5fd 100%);
+    }
+    .metric-box.cycle-time {
+      background: linear-gradient(135deg, #c7d2fe 0%, #a5b4fc 100%);
+    }
+    .metric-box.speed {
+      background: linear-gradient(135deg, #fde68a 0%, #fcd34d 100%);
+    }
+    .metric-value {
+      font-size: 48px;
+      font-weight: bold;
+      color: #1f2937;
+      line-height: 1;
+      text-align: center;
+    }
+    select {
+      font-size: 18px;
+      padding: 12px 20px;
+      margin: 0 10px;
+      border: 2px solid #d1d5db;
+      border-radius: 8px;
+      background-color: #ffffff;
+      color: #1f2937;
+      cursor: pointer;
+      transition: all 0.2s;
+      min-width: 200px;
+      font-family: 'Georgia', 'Times New Roman', serif;
+    }
+    select:hover {
+      border-color: #9ca3af;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    select:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+    button {
+      font-size: 18px;
+      padding: 14px 28px;
+      margin: 5px 10px;
+      border: none;
+      border-radius: 8px;
+      background: #a5b4fc;
+      color: #1f2937;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      font-family: 'Georgia', 'Times New Roman', serif;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      background: #c7d2fe;
+    }
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      font-size: 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #6366f1;
+    }
+    .beat-buttons-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+      padding-bottom: 14px; /* Space for underline below buttons */
+    }
+    .beat-button {
+      width: 60px;
+      height: 60px;
+      border: 2px solid #a5b4fc;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #1f2937;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0;
+    }
+    .beat-button.clicked {
+      background: #a5b4fc;
+      color: #ffffff;
+      border-color: #8b9afc;
+    }
+  </style>
 </head>
 
 <body style="text-align: center">
@@ -23,142 +163,507 @@
   <![endif]-->
 
   <!-- Add your site or application content here -->
-  <p>Welcome to Tabla Speed Check!</p>
+  <p>Tabla Race Conditions</p>
   <script src="js/vendor/modernizr-3.8.0.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
   <script src="js/plugins.js"></script>
   <script src="js/main.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
 
-  Enter your Youtube embed code here. You can get this by clicking the share link below the video. <br/>
-  <input id="embedded-video-input" style="width:600px"> <br/><br/>
+  Enter your Youtube URL or video ID here (e.g., https://www.youtube.com/watch?v=VIDEO_ID). <br/>
+  <input id="embedded-video-input" style="width:600px; font-size: 16px; padding: 10px; margin-bottom: 20px;"> <br/>
 
-  <div id="embedded-video">
-    <!-- pt. venkatesh kumar's parallel lines concert-->
-    <iframe width="1120" height="630" src="https://www.youtube.com/embed/SopMB5_UgKA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <!-- rishu's video-->
-<!--    <iframe width="1120" height="630" src="https://www.youtube.com/embed/UD-iSWFKack?start=265" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe> -->
+  <div id="embedded-video" style="margin-top: 20px;">
+    <div id="youtube-player"></div>
   </div>
-  <br/>
-  <br/>
 
   <!--  selector for beat-->
-  <select id="beat">
-    <option value="7">Rupak taal</option>
-    <option value="9" >Matta taal</option>
-    <option value="10">Sooltaal</option>
-    <option value="10">Jhaptaal</option>
-    <option value="11">Chartal-Ki-Sawari-</option>
-    <option value="12" selected>Ektaal</option>
-    <option value="13">Jai taal</option>
-    <option value="14">Ada Chautaal</option>
-    <option value="16">Teen taal</option>
-  </select>
+  <div style="margin: 10px 0;">
+    <select id="beat">
+      <option value="7">Rupak taal</option>
+      <option value="9" >Matta taal</option>
+      <option value="10">Sooltaal</option>
+      <option value="10">Jhaptaal</option>
+      <option value="11">Chartal-Ki-Sawari-</option>
+      <option value="12" selected>Ektaal</option>
+      <option value="13">Jai taal</option>
+      <option value="14">Ada Chautaal</option>
+      <option value="16">Teen taal</option>
+    </select>
 
-  <select id="laya">
-    <option value="slow" selected>Vilambit</option>
-    <option value="fast">Madhya Laya/Drut</option>
-  </select>
+    <label>
+      <input type="checkbox" id="track-checkbox"> track
+    </label>
+  </div>
 
-  <button id="first-beat">Click at first beat</button>
-  <button id="second-beat">Click at second beat</button>
+  <div id="beat-buttons-container" style="margin: 20px 0;">
+    <!-- Beat buttons will be generated here -->
+  </div>
+  <div id="video-measurement-info" style="margin: 10px 0; font-size: 14px; color: #555; font-style: italic;">
+  </div>
+  <div style="margin: 15px 0;">
+    <label>
+      <input type="checkbox" id="begin-checkbox" checked> begin
+    </label>
+  </div>
+  <div class="metric-container">
+    <div class="metric-item">
+      <div class="metric-label">Cycle Time (s)</div>
+      <div class="metric-box cycle-time">
+        <div class="metric-value">
+          <span id="cycle-time">-</span>
+        </div>
+      </div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-label">Speed (bpm)</div>
+      <div class="metric-box speed">
+        <div class="metric-value">
+          <span id="bpm">-</span>
+        </div>
+      </div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-label">Beat Time (s)</div>
+      <div class="metric-box beat-time">
+        <div class="metric-value">
+          <span id="beat-time">-</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <button id="first-sam" style="display:none">Click at first sam</button>
-  <button id="second-sam" style="display:none">Click at second sam</button>
-
-  Current beat is <span id="current-beat">-</span>.
-  Beat time is <span id="beat-time">-</span> seconds.
-  Speed is <span id="bpm">-</span> bpm.
+  <div id="click-history" style="margin: 30px auto; max-width: 800px; padding: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <h3 style="margin: 0; font-size: 18px; color: #333;">History</h3>
+      <div>
+        <button id="clear-history-btn" style="margin-left: 10px; font-size: 14px; padding: 6px 12px;">Clear</button>
+        <button id="pause-history-btn" style="margin-left: 10px; font-size: 14px; padding: 6px 12px;">Pause</button>
+      </div>
+    </div>
+    <div id="click-history-list" style="text-align: left;">
+      <!-- Click history entries will be added here -->
+    </div>
+  </div>
 
   <br/>
   <br/>
   <script>
 
-    $('#laya').change(function() {
-      if ($('#laya').val() == 'slow') {
-          $('#first-beat, #second-beat').show();
-          $('#first-sam, #second-sam').hide();
-      } else {
-        $('#first-sam, #second-sam').show();
-        $('#first-beat, #second-beat').hide();
+    var youtubePlayer;
+    var firstVideoTime = null;
+    var secondVideoTime = null;
+    var lastBpmFirstVideoTime = null; // Video time of first click used for current BPM
+    var lastBpmSecondVideoTime = null; // Video time of second click used for current BPM
+    var lastClickVideoTime = null; // Video time of the last click
+
+    // Get current YouTube video time in milliseconds
+    // Falls back to wall clock time if no video is loaded
+    function getTime() {
+      if (youtubePlayer && youtubePlayer.getCurrentTime) {
+        return youtubePlayer.getCurrentTime() * 1000; // Convert seconds to milliseconds
+      }
+      // Fall back to actual wall clock time if no video is loaded
+      return new Date().getTime();
+    }
+
+    // Check localStorage on page load and populate input field
+    $(document).ready(function() {
+      var savedVideoId = localStorage.getItem('yt-video');
+      if (savedVideoId) {
+        $('#embedded-video-input').val('https://www.youtube.com/embed/' + savedVideoId);
+        load_video();
+      }
+      displayClickHistory(); // Initialize click history display
+      generateBeatButtons(); // Initialize beat buttons
+      // Clear fields if begin checkbox is checked on page load
+      if ($('#begin-checkbox').is(':checked')) {
+        updateBeatMetrics(null, null, 0);
       }
     });
 
-    $('#embedded-video-input').change(function() {
-      var new_embedded_video = $('#embedded-video-input').val();
-      new_embedded_video = new_embedded_video.replace('width="560"', 'width="1120"')
-      new_embedded_video = new_embedded_video.replace('height="315"', 'height="630"')
-      console.log  ('embedded video changed to ' + new_embedded_video);
-      $('#embedded-video-input').val(new_embedded_video);
+    // Initialize YouTube Player
+    function onYouTubeIframeAPIReady() {
+      // Check localStorage for saved video
+      var savedVideoId = localStorage.getItem('yt-video');
+      var videoId = savedVideoId || 'nArTXoXwegI'; // Default video if nothing saved
+      
+      // Initialize the player with the saved video (or default)
+      youtubePlayer = new YT.Player('youtube-player', {
+        height: '315',
+        width: '560',
+        videoId: videoId,
+        playerVars: {
+          'playsinline': 1
+        },
+        events: {
+          'onReady': onPlayerReady
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      // Player is ready
+    }
+
+    function formatTime(seconds) {
+      var mins = Math.floor(seconds / 60);
+      var secs = (seconds % 60).toFixed(2);
+      return mins + ':' + (secs < 10 ? '0' : '') + secs;
+    }
+
+    function formatSeconds(seconds) {
+      return seconds.toFixed(3) + 's';
+    }
+
+    function updateBeatMetrics(firstBeatNumber, secondBeatNumber, elapsedTime) {
+      // If firstBeatNumber is null, clear all fields
+      if (firstBeatNumber === null || firstBeatNumber === undefined) {
+        $('#beat-time').text('-');
+        $('#cycle-time').text('-');
+        $('#bpm').text('-');
+        lastBpmFirstVideoTime = null;
+        lastBpmSecondVideoTime = null;
+        updateMeasurementMessage();
+        return;
+      }
+      
+      // elapsedTime is in milliseconds
+      var num_beats = parseInt($('#beat').val());
+      
+      // Calculate beat difference with wrapping using modulo
+      var beatDiff = ((secondBeatNumber - firstBeatNumber) % num_beats + num_beats) % num_beats;
+      if (beatDiff === 0) beatDiff = num_beats; // If same beat or wrapped around completely
+      
+      // Compute beat time based on elapsed time divided by beat difference
+      beatTime = elapsedTime / beatDiff;
+      
+      // Calculate cycle time (beat time × number of beats)
+      var cycleTime = beatTime * num_beats;
+      
+      // Update display fields
+      $('#beat-time').text((beatTime/1000).toFixed(3));
+      $('#cycle-time').text((cycleTime/1000).toFixed(3));
+      
+      // Calculate and display BPM (only if beat time is not 0)
+      if (beatTime <= 0) {
+        $('#bpm').text('-');
+      } else {
+        var hundred_times_bpm = Math.floor(6000/(beatTime/1000));
+        $('#bpm').text((hundred_times_bpm/100).toFixed(2));
+      }
+    }
+
+    function displayClickHistory() {
+      var historyHtml = '';
+      if (clickHistory.length === 0) {
+        historyHtml = '<p style="color: #999; font-style: italic;">No click history yet. Click the buttons to start recording.</p>';
+      } else {
+        historyHtml = '<table style="width: 100%; border-collapse: collapse;">';
+        historyHtml += '<thead><tr style="border-bottom: 2px solid #ddd;">';
+        historyHtml += '<th style="padding: 8px; text-align: center;">Observation</th>';
+        historyHtml += '<th style="padding: 8px; text-align: left;">Time Since Last Click</th>';
+        historyHtml += '<th style="padding: 8px; text-align: left;">Video Time</th>';
+        historyHtml += '<th style="padding: 8px; text-align: left;">Video Time Delta</th>';
+        historyHtml += '<th style="padding: 8px; text-align: left;">Cycle Time</th>';
+        historyHtml += '<th style="padding: 8px; text-align: left;">BPM</th>';
+        historyHtml += '</tr></thead><tbody>';
+        
+        var num_beats = parseInt($('#beat').val());
+        
+        // Display in reverse chronological order (most recent first)
+        for (var i = clickHistory.length - 1; i >= 0; i--) {
+          var click = clickHistory[i];
+          var observationNumber = i + 1; // Start from 1
+          
+          // Calculate cycle time and BPM based on timeSinceLastClick and beat difference
+          var beatDiff = click.beatDiff || 1; // Default to 1 if not stored (for backwards compatibility)
+          var beatTime = click.timeSinceLastClick / beatDiff; // Beat time in seconds
+          var cycleTime = beatTime * num_beats;
+          var bpm = beatTime > 0 ? (60 / beatTime).toFixed(2) : '-';
+          
+          historyHtml += '<tr style="border-bottom: 1px solid #eee;">';
+          historyHtml += '<td style="padding: 8px; text-align: center;">' + observationNumber + '</td>';
+          historyHtml += '<td style="padding: 8px;">' + formatSeconds(click.timeSinceLastClick) + '</td>';
+          historyHtml += '<td style="padding: 8px;">' + formatTime(click.videoTime) + '</td>';
+          historyHtml += '<td style="padding: 8px;">' + (click.videoDelta !== null ? formatSeconds(click.videoDelta) : '-') + '</td>';
+          historyHtml += '<td style="padding: 8px;">' + formatSeconds(cycleTime) + '</td>';
+          historyHtml += '<td style="padding: 8px;">' + bpm + '</td>';
+          historyHtml += '</tr>';
+        }
+        historyHtml += '</tbody></table>';
+      }
+      $('#click-history-list').html(historyHtml);
+    }
+
+    function updateMeasurementMessage() {
+      // Show message based on the last two clicks used for BPM calculation
+      if (lastBpmFirstVideoTime !== null && lastBpmSecondVideoTime !== null) {
+        var message = 'Cycle time set based on clip between ' + 
+                     formatTime(lastBpmFirstVideoTime) + ' and ' + 
+                     formatTime(lastBpmSecondVideoTime) + ' in video';
+        $('#video-measurement-info').text(message);
+      } else if (firstVideoTime !== null && (waitingForSecondBeat || waitingForSecondSam)) {
+        $('#video-measurement-info').text('Setting cycle time based on segment started at ' + formatTime(firstVideoTime) + ' ..... in video');
+      } else if (firstVideoTime !== null) {
+        $('#video-measurement-info').text('First mark at ' + formatTime(firstVideoTime) + ' in video');
+      } else {
+        $('#video-measurement-info').text('');
+      }
+    }
+
+    var beatClickTimes = []; // Array to store click times for each beat
+    var lastBeatClickTime = null; // Last click time in milliseconds (YouTube video time)
+    var lastBeatNumber = null; // Track the last clicked beat number
+
+    function generateBeatButtons() {
+      var numBeats = parseInt($('#beat').val());
+      var container = $('#beat-buttons-container');
+      container.html('<div class="beat-buttons-grid"></div>');
+      var grid = container.find('.beat-buttons-grid');
+      
+      beatClickTimes = []; // Reset click times
+      
+      for (var i = 1; i <= numBeats; i++) {
+        var button = $('<button>')
+          .addClass('beat-button')
+          .attr('data-beat', i)
+          .text(i)
+          .click(function() {
+            handleBeatClick($(this).data('beat'));
+          });
+        grid.append(button);
+      }
+    }
+
+    function handleBeatClick(beatNumber) {
+      var currentTime = getTime();
+      
+      // Get actual video time if available
+      var currentVideoTime = null;
+      if (youtubePlayer && youtubePlayer.getCurrentTime) {
+        currentVideoTime = youtubePlayer.getCurrentTime(); // Already in seconds
+      }
+      
+      // Check if begin checkbox is checked
+      var beginChecked = $('#begin-checkbox').is(':checked');
+      
+      // If begin is checked, clear all metric fields
+      if (beginChecked) {
+        updateBeatMetrics(null, null, 0);
+      }
+      
+      // Always uncheck begin checkbox when any beat is clicked
+      $('#begin-checkbox').prop('checked', false);
+      
+      var beatIndex = beatNumber - 1; // Convert to 0-based index
+      
+      // Store click time for this beat
+      beatClickTimes[beatIndex] = {
+        videoTime: currentTime / 1000, // Store in seconds for display
+        beatNumber: beatNumber
+      };
+      
+      // Update button appearance
+      $('.beat-button').removeClass('current clicked');
+      $('.beat-button[data-beat="' + beatNumber + '"]').addClass('clicked current');
+      
+      // If this is the first click, initialize
+      if (beatClickTimes.filter(function(b) { return b !== undefined; }).length === 1) {
+        firstBeatTimestamp = currentTime;
+        firstVideoTime = currentTime / 1000; // Store in seconds
+        secondVideoTime = null;
+        current_beat = beatNumber;
+        waitingForSecondBeat = true;
+        clickHistory = [];
+        displayClickHistory();
+        updateMeasurementMessage();
+        lastBeatClickTime = currentTime;
+        lastBeatNumber = beatNumber; // Set lastBeatNumber so 2nd click can compute metrics
+        lastClickVideoTime = currentVideoTime; // Store video time of this click
+        return;
+      }
+      
+      // For subsequent clicks, record in history and recompute
+      if (lastBeatClickTime !== null && lastBeatNumber !== null) {
+        var timeSinceLastClick = (currentTime - lastBeatClickTime) / 1000; // Convert to seconds
+        var videoDelta = timeSinceLastClick; // Delta is the same as time since last click
+        
+        // Calculate beat difference with wrapping
+        var num_beats = parseInt($('#beat').val());
+        var beatDiff = ((beatNumber - lastBeatNumber) % num_beats + num_beats) % num_beats;
+        if (beatDiff === 0) beatDiff = num_beats; // If same beat or wrapped around completely
+        
+        // Only update history if not paused AND begin is not checked
+        if (!pauseHistory && !beginChecked) {
+          clickHistory.push({
+            videoTime: currentTime / 1000, // Store in seconds
+            timeSinceLastClick: timeSinceLastClick,
+            videoDelta: videoDelta,
+            beatDiff: beatDiff
+          });
+          
+          displayClickHistory();
+        }
+        
+        // Compute elapsed time and update metrics
+        var elapsedTime = currentTime - lastBeatClickTime;
+        updateBeatMetrics(lastBeatNumber, beatNumber, elapsedTime);
+        
+        // Store video times of the last two clicks used for BPM calculation
+        if (currentVideoTime !== null && lastClickVideoTime !== null) {
+          lastBpmFirstVideoTime = lastClickVideoTime;
+          lastBpmSecondVideoTime = currentVideoTime;
+        } else {
+          // Fallback: use wall clock time divided by 1000
+          lastBpmFirstVideoTime = lastBeatClickTime / 1000;
+          lastBpmSecondVideoTime = currentTime / 1000;
+        }
+        
+        // Update the beat counter if we have a valid beat time
+        if (timeoutID)
+          clearTimeout(timeoutID);
+        updateNextBeat();
+        
+        secondVideoTime = currentTime / 1000; // Store in seconds
+        updateMeasurementMessage();
+      }
+      
+      current_beat = beatNumber;
+      // Update current beat button underline
+      $('.beat-button').removeClass('current');
+      $('.beat-button[data-beat="' + beatNumber + '"]').addClass('current');
+      lastBeatClickTime = currentTime;
+      lastBeatNumber = beatNumber;
+      lastClickVideoTime = currentVideoTime; // Store video time of this click for next BPM calculation
+    }
+
+    $('#beat').change(function() {
+      generateBeatButtons();
+      beatClickTimes = [];
+      lastBeatClickTime = null;
+      clickHistory = [];
+      displayClickHistory();
+    });
+
+    $('#clear-history-btn').click(function() {
+      clickHistory = [];
+      displayClickHistory();
+    });
+
+    $('#pause-history-btn').click(function() {
+      pauseHistory = !pauseHistory;
+      if (pauseHistory) {
+        $('#pause-history-btn').text('Unpause');
+      } else {
+        $('#pause-history-btn').text('Pause');
+      }
+    });
+
+    $('#begin-checkbox').change(function() {
+      if ($(this).is(':checked')) {
+        updateBeatMetrics(null, null, 0);
+      }
+    });
+
+    function extractVideoId(urlOrId) {
+      if (!urlOrId) return null;
+      
+      var input = urlOrId.trim();
+      
+      // If it's just a video ID (11 characters, alphanumeric, dashes, underscores)
+      if (/^[a-zA-Z0-9_-]{11}$/.test(input)) {
+        return input;
+      }
+      
+      // Try to extract video ID from embed URL
+      var match = input.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
+      if (match) {
+        return match[1];
+      }
+      // Try watch URL format
+      match = input.match(/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/);
+      if (match) {
+        return match[1];
+      }
+      // Try short URL format
+      match = input.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
+      if (match) {
+        return match[1];
+      }
+      return null;
+    }
+
+    function convertToEmbedUrl(urlOrId) {
+      var videoId = extractVideoId(urlOrId);
+      if (videoId) {
+        return 'https://www.youtube.com/embed/' + videoId;
+      }
+      return null;
+    }
+
+    function load_video() {
+      var input = $('#embedded-video-input').val();
+      var embedUrl = convertToEmbedUrl(input);
+      var videoId = extractVideoId(input);
+
+      // Convert to embed URL and update input field if conversion successful
+      if (embedUrl) {
+        $('#embedded-video-input').val(embedUrl);
+      }
+
+      // If we have a video ID, save it to localStorage
+      if (videoId) {
+        localStorage.setItem('yt-video', videoId);
+      }
+
+      if (videoId && youtubePlayer) {
+        youtubePlayer.loadVideoById(videoId);
+      } else if (videoId && typeof YT !== 'undefined' && YT.Player) {
+        // If API is loaded but player not initialized yet
+        youtubePlayer = new YT.Player('youtube-player', {
+          height: '315',
+          width: '560',
+          videoId: videoId,
+          playerVars: {
+            'playsinline': 1
+          }
+        });
+      } else {
+        // Fallback to iframe embed
+        new_embedded_video = new_embedded_video.replace('width="560"', 'width="1120"')
+        new_embedded_video = new_embedded_video.replace('height="315"', 'height="630"')
         $('#embedded-video').html(new_embedded_video);
+      }
+    }
+
+    $('#embedded-video-input').change(function() {
+      load_video();
     });
 
     function updateNextBeat() {
-      console.log  ("updating beat to " + current_beat + " at " + new Date().getTime());
+      var currentTime = getTime();
+      console.log  ("updating beat to " + current_beat + " at video time " + (currentTime ? currentTime/1000 : 'N/A'));
       // wait for beat time and then increment current_beat
       current_beat++;
       var num_beats = parseInt($('#beat').val());
       if (current_beat ===  num_beats + 1) // wrap around to 1 at the end of the beat cycle
         current_beat = 1;
-      $('#current-beat').text(current_beat); // show it on the screen
+      // Update current beat button underline
+      $('.beat-button').removeClass('current');
+      $('.beat-button[data-beat="' + current_beat + '"]').addClass('current');
       timeOut = setTimeout (updateNextBeat, beatTime); // schedule the next beat. after beatTime, updateNextBeat will be executed again
     }
 
     var current_beat, timeoutID;
     var firstBeatTimestamp, beatTime; // in milliseconds
     var waitingForSecondBeat = false;
+    var waitingForSecondSam = false;
+    var clickHistory = []; // Array to store click history: {videoTime, timeSinceLastClick, videoDelta, beatDiff}
+    var pauseHistory = false; // Whether history updates are paused
 
-    $('#first-beat').click (function(){
-      firstBeatTimestamp = new Date().getTime();
-      current_beat = 1;
-      $('#current-beat').text('1');
-      waitingForSecondBeat = true;
-    });
-
-    $('#second-beat').click (function(){
-      if (!waitingForSecondBeat)
-        return;
-      var secondBeatTime = new Date().getTime();
-      beatTime = secondBeatTime - firstBeatTimestamp;
-      $('#beat-time').text(beatTime/1000);
-      $('#current-beat').text('2');
-
-      // set bpm up to 2 decimal places of accuracy
-      var hundred_times_bpm = Math.floor(6000/(beatTime/1000));
-      $('#bpm').text(hundred_times_bpm/100);
-
-      if (timeoutID)
-        clearTimeout(timeoutID);
-      updateNextBeat();
-    });
-
-    $('#first-sam').click (function(){
-      firstSamTimestamp = new Date().getTime();
-      current_beat = 1;
-      $('#current-beat').text('1');
-      waitingForSecondSam = true;
-    });
-
-    $('#second-sam').click (function(){
-      if (!waitingForSecondSam)
-        return;
-      var secondSamTime = new Date().getTime();
-      var cycleTime = secondSamTime - firstSamTimestamp;
-      var nBeats = $('#beat').val();
-      beatTime = cycleTime/nBeats;
-
-      $('#beat-time').text(Math.floor(100 * beatTime/1000)/100);
-      $('#current-beat').text('1');
-      current_beat = 1;
-
-      // set bpm up to 2 decimal places of accuracy
-      var hundred_times_bpm = Math.floor(6000/(beatTime/1000));
-      $('#bpm').text(hundred_times_bpm/100);
-
-      if (timeoutID)
-        clearTimeout(timeoutID);
-      updateNextBeat();
-    });
+    // Old button handlers removed - using beat buttons instead
 
   </script>
 </body>
